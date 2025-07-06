@@ -1,0 +1,9 @@
+<div class="terminal-container">
+    <div class="message-container" *ngFor="let message of messages">
+        <p>{{ message.id }}</p>
+        <p>{{ message.owner }}</p>
+        <p>{{ message.message }}</p>
+    </div>
+    <input class="user-input" type="text" [(ngModel)]="userInput" (keyup.enter)="addTextMessageWithUserInput()">
+    <button type="submit" (click)="addTextMessageWithUserInput()">Submit</button>
+</div>
