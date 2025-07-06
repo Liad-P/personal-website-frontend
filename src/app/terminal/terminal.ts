@@ -15,10 +15,14 @@ export class Terminal implements OnInit {
   messages: TerminalMessage[] = [];
 
   userInput: string = "";
+  isStreaming: boolean = false;
 
   ngOnInit(): void {
-    this.addBackendMessageToTerminal("Welcome to my personal website!");
-    this.addBackendMessageToTerminal("Type 'help' for a list of available commands.");
+    this.streamBackendMessage("Welcome to my personal website!")
+      .then(() => {
+          return this.streamBackendMessage("Type 'help' to see available commands.");
+        }
+      );
   }
 
   addUserMessageToTerminal(inputMessage: string) {
@@ -38,6 +42,25 @@ export class Terminal implements OnInit {
     this.addMessageWithOwner(inputMessage, "Backend");
   }
 
+  streamBackendMessage(inputMessage: string): Promise<void> {
+    this.isStreaming = true;
+    this.addBackendMessageToTerminal("");
+    const messageIndex = this.messages.length - 1;
+    let charIndex = 0;
+    return new Promise<void>((resolve) => {
+      const interval = setInterval(() => {
+        if (charIndex < inputMessage.length) {
+          this.messages[messageIndex].message += inputMessage[charIndex];
+          charIndex++;
+        } else {
+          clearInterval(interval);
+          this.isStreaming = false;
+          resolve();
+        }
+      }, 20);
+    });
+  }
+
   addTextMessageWithUserInput() {
     this.addUserMessageToTerminal(this.userInput);
     this.userInput = "";
@@ -50,3 +73,4 @@ interface TerminalMessage{
   owner: string,
   message: string
 }
+
