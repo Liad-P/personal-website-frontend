@@ -1,9 +1,15 @@
 <div class="terminal-container">
-    <div class="message-container" *ngFor="let message of messages">
-        <p>{{ message.id }}</p>
-        <p>{{ message.owner }}</p>
-        <p>{{ message.message }}</p>
+    <div *ngFor="let message of messages" [ngSwitch]="message.owner">
+        <div *ngSwitchCase="'User'" class="message-container">
+            <span class="prompt">user&#64;liad-dev:~$ </span>
+            <span class="user-message">{{ message.message }}</span>
+        </div>
+        <div *ngSwitchCase="'Backend'" class="message-container">
+            <span class="backend-message">{{ message.message }}</span>
+        </div>
     </div>
-    <input class="user-input" type="text" [(ngModel)]="userInput" (keyup.enter)="addTextMessageWithUserInput()">
-    <button type="submit" (click)="addTextMessageWithUserInput()">Submit</button>
+    <div class="user-input-container">
+        <span class="prompt">user&#64;liad-dev:~$ </span>
+        <input class="user-input" type="text" [(ngModel)]="userInput" (keyup.enter)="addTextMessageWithUserInput()">
+    </div>
 </div>

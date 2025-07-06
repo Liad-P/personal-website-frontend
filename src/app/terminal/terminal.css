@@ -1,0 +1,42 @@
+
+.terminal-container {
+    background-color: #000000;
+    color: #D8DEE9;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 20px;
+    border-radius: 5px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.message-container {
+    margin-bottom: 10px;
+}
+
+.prompt {
+    color: #81A1C1;
+    min-width: fit-content;
+    padding-right: 2mm;
+}
+
+.user-input-container {
+    display: inline-flex;
+}
+
+.user-input {
+    background-color: transparent;
+    border: none;
+    color: #88C0D0;
+    width: 100%;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.user-message {
+    color: #88C0D0;
+}
+
+.backend-message {
+    color: #A3BE8C;
+}

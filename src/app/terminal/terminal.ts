@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -8,13 +8,18 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './terminal.html',
   styleUrl: './terminal.css'
 })
-export class Terminal {
+export class Terminal implements OnInit {
 
   currentMessageID: number = 0;
 
   messages: TerminalMessage[] = [];
 
   userInput: string = "";
+
+  ngOnInit(): void {
+    this.addBackendMessageToTerminal("Welcome to my personal website!");
+    this.addBackendMessageToTerminal("Type 'help' for a list of available commands.");
+  }
 
   addUserMessageToTerminal(inputMessage: string) {
     this.addMessageWithOwner(inputMessage, "User");
@@ -35,6 +40,7 @@ export class Terminal {
 
   addTextMessageWithUserInput() {
     this.addUserMessageToTerminal(this.userInput);
+    this.userInput = "";
   }
 
 }
