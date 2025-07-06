@@ -61,9 +61,18 @@ export class Terminal implements OnInit {
     });
   }
 
-  addTextMessageWithUserInput() {
+  addTextMessageWithUserInput(event: Event) {
+    if (this.isStreaming) return;
     this.addUserMessageToTerminal(this.userInput);
     this.userInput = "";
+    const target = event.target as HTMLTextAreaElement;
+    target.style.height = 'auto';
+  }
+
+  autoResize(event: Event): void {
+    const target = event.target as HTMLTextAreaElement;
+    target.style.height = 'auto';
+    target.style.height = target.scrollHeight + 'px';
   }
 
 }

@@ -10,6 +10,6 @@
     </div>
     <div class="user-input-container">
         <span class="prompt">user&#64;liad-dev:~$ </span>
-        <input class="user-input" type="text" [(ngModel)]="userInput" (keyup.enter)="addTextMessageWithUserInput()" [disabled]="isStreaming">
+        <textarea class="user-input" [(ngModel)]="userInput" (keyup.enter)="addTextMessageWithUserInput($event)" [disabled]="isStreaming" (input)="autoResize($event)" (keydown.enter)="$event.preventDefault()"></textarea>
     </div>
 </div>
