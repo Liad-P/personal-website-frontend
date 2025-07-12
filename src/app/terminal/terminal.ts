@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AiBackend, AIResponse } from '../ai-backend/ai-backend';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-terminal',
@@ -10,12 +12,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class Terminal implements OnInit {
 
+  private aiBackend = inject(AiBackend);
+
   currentMessageID: number = 0;
 
   messages: TerminalMessage[] = [];
 
   userInput: string = "";
   isStreaming: boolean = false;
+  waitingForBackendMessage = false;
 
   ngOnInit(): void {
     this.streamBackendMessage("Welcome to my personal website!")
@@ -26,7 +31,26 @@ export class Terminal implements OnInit {
   }
 
   addUserMessageToTerminal(inputMessage: string) {
-    this.addMessageWithOwner(inputMessage, "User");
+    if (this.waitingForBackendMessage) {
+      return;
+    }
+    const result = this.getAIResponseToPrompt(inputMessage);
+    this.waitingForBackendMessage = true;
+    result.subscribe({
+      next: value => {
+        this.addMessageWithOwner(inputMessage, "User");
+        this.userInput = ""
+        this.streamBackendMessage(value.AiResponse);
+        this.waitingForBackendMessage = false;
+      },
+      error: err => {
+        console.error('Error:', err);
+        this.addMessageWithOwner(inputMessage, "User");
+        this.userInput = ""
+        this.streamBackendMessage("Error connecting to backend server.");
+      },
+      complete: () => this.waitingForBackendMessage = false
+    })
   }
 
   addMessageWithOwner(inputMessage: string, inputOwner: string) {
@@ -64,7 +88,6 @@ export class Terminal implements OnInit {
   addTextMessageWithUserInput(event: Event) {
     if (this.isStreaming) return;
     this.addUserMessageToTerminal(this.userInput);
-    this.userInput = "";
     const target = event.target as HTMLTextAreaElement;
     target.style.height = 'auto';
   }
@@ -73,6 +96,11 @@ export class Terminal implements OnInit {
     const target = event.target as HTMLTextAreaElement;
     target.style.height = 'auto';
     target.style.height = target.scrollHeight + 'px';
+  }
+
+  getAIResponseToPrompt(prompt: string): Observable<AIResponse> {
+    const response = this.aiBackend.generateResponse(prompt);
+    return response;
   }
 
 }
