@@ -5,11 +5,14 @@
             <span class="user-message">{{ message.message }}</span>
         </div>
         <div *ngSwitchCase="'Backend'" class="message-container">
-            <span class="backend-message">{{ message.message }}</span>
+            <markdown class="backend-message" [class.last-backend-message]="message.id === messages.length - 1" [data]="message.message"></markdown>
         </div>
     </div>
     <div class="user-input-container">
         <span class="prompt">user&#64;liad-dev:~$ </span>
-        <textarea class="user-input" [(ngModel)]="userInput" (keyup.enter)="addTextMessageWithUserInput($event)" [disabled]="isStreaming" (input)="autoResize($event)" (keydown.enter)="$event.preventDefault()"></textarea>
+        <textarea class="user-input" [(ngModel)]="userInput" (keyup.enter)="addTextMessageWithUserInput($event)" [disabled]="isStreaming || waitingForBackendMessage" (input)="autoResize($event)" (keydown.enter)="$event.preventDefault()"></textarea>
+    </div>
+    <div *ngIf="waitingForBackendMessage" class="loading-container">
+        <div class="loading-indicator"></div>
     </div>
 </div>

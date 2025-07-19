@@ -3,10 +3,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AiBackend, AIResponse } from '../ai-backend/ai-backend';
 import { Observable } from 'rxjs';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-terminal',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MarkdownModule],
   templateUrl: './terminal.html',
   styleUrl: './terminal.css'
 })

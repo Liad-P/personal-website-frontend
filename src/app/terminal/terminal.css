@@ -16,7 +16,7 @@
 }
 
 .prompt {
-    color: #81A1C1;
+    color: #00ff00;
     min-width: fit-content;
     padding-right: 2mm;
 }
@@ -26,24 +26,56 @@
     width: 100%;
     white-space: pre-wrap;
     word-wrap: break-word;
+    font-weight: bold;
 }
 
 .user-input {
     background-color: transparent;
     border: none;
-    color: #88C0D0;
+    color: #00c8ff;
     width: 100%;
     outline: none;
     font-family: inherit;
     font-size: inherit;
     resize: none;
     overflow: hidden;
+    font-weight: bold;
 }
 
 .user-message {
-    color: #88C0D0;
+    color: #00c8ff;
+    font-weight: bold;
 }
 
 .backend-message {
-    color: #A3BE8C;
+    display: block;
+}
+
+.last-backend-message {
+    border: 1px solid #8A2BE2;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 10px #8A2BE2;
+}
+
+.loading-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.loading-indicator {
+    width: 10px;
+    height: 16px;
+    background-color: #A3BE8C;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    from, to {
+        background-color: transparent;
+    }
+    50% {
+        background-color: #A3BE8C;
+    }
 }
