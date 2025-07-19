@@ -16,7 +16,7 @@ export class AiBackend {
     const body = {
       "prompt": input
     };
-    return this.http.post<AIResponse>(`${environment.apiUrl}/generate`, body);
+    return this.http.post<AIResponse>(`${environment.apiUrl}/chat`, body);
   }
   
 }
